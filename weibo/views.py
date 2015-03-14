@@ -41,8 +41,8 @@ def success(request):
         )
     import urllib, urllib2
     req = urllib2.Request(url, urllib.urlencode(data))
-    res_data = urllib2.urlopen(req)
-    res = json.loads(res_data.read())
+    res_data = urllib2.urlopen(req).read()
+    res = json.loads(res_data)
 
     if 'uid' not in res or 'access_token' not in res:
         return HttpResponse(res)
@@ -55,5 +55,4 @@ def success(request):
         user.access_token = res['access_token']
         user.expires_in = res['expires_in']
         user.save()
-        return HttpResponse(res)
-
+        return HttpResponse(res_data)
