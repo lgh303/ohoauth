@@ -18,7 +18,8 @@ def index(request):
 def login(request):
     url = 'https://api.weibo.com/oauth2/authorize'
     client_id = '225784211'
-    redirect_uri = 'http://127.0.0.1:8000/weibo/success'
+    redirect_uri = 'http://ligh.xyz/weibo/success'
+    redirect_uri_callback = 'http://127.0.0.1:8000/weibo/success'
     paras = '?client_id=' + client_id + '&response_type=code&redirect_uri=' + redirect_uri;
     return HttpResponseRedirect(url + paras)
 
@@ -29,11 +30,13 @@ def success(request):
     else:
         return HttpResponse('ERROR : No code returned')
     url = 'https://api.weibo.com/oauth2/access_token'
+    redirect_uri_callback = 'http://127.0.0.1:8000/weibo/success'
+    redirect_uri = 'http://ligh.xyz/weibo/success'
     data = (
         ('client_id', '225784211'),
         ('client_secret', '5bd2774944d0d0f4599c4b69bcd1b813'),
         ('grant_type', 'authorization_code'),
-        ('redirect_uri', 'http://127.0.0.1:8000/weibo/success'),
+        ('redirect_uri', redirect_uri),
         ('code', code),
         )
     import urllib, urllib2
