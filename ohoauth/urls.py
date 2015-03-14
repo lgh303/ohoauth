@@ -7,5 +7,6 @@ urlpatterns = patterns(
     (r'^shanbay/$', 'shanbay.views.index'),
     (r'^shanbay/success/$', 'shanbay.views.success'),
     (r'^weibo/$', 'weibo.views.index'),
+    (r'^weibo/login/$', 'weibo.views.login'),
     (r'^weibo/success/$', 'weibo.views.success'),
 )
