@@ -1,0 +1,20 @@
+{%extends "base_weibo.html" %}
+
+{%block title %} Release Weibo {%endblock %}
+
+{%block content %}
+<div class="container">
+  <textarea name="content" form="weibo_form" rows="3"></textarea>
+  <form action="" method="post" id="weibo_form">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-success"  value="发布"/>
+  </form>
+  <hr/>
+  <a href="/weibo/home/"><button type="button" class="btn btn-warning">返回首页</button></a>
+
+  {% if status %}
+  <span class="alert alert-success">{{status}}</span>
+  {% endif %}
+
+</div>
+{%endblock %}

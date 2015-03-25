@@ -1,27 +1,11 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta property="wb:webmaster" content="c5ea2956f5f51742" />
-	<title>提取关键词 Sina Weibo</title>
-	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-	<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  </head>
-  <body>
-	<div class="container">
-	  <div class="header">
-		<h3>Sina Weibo</h3>
-	  </div>
-	  <hr/>
-	  <div class="container">
-		<a href="/weibo/login/"><button type="button" class="btn btn-success">通过新浪weibo登录</button></a>
-		<hr/>
-		<button type="button" class="btn btn-primary">提取关键词</button>
-		<hr/>
-		<b>只是一个Demo，正在申请Sina Weibo开发者授权</b>
-	  </div>
-	</div>
-  </body>
-</html>
+{%extends "base_weibo.html" %}
+
+{%block title %} Weibo Index {%endblock %}
+
+
+{%block content %}
+<div class="container">
+  <a href="/weibo/login/"><button type="button" class="btn btn-success">通过新浪weibo登录</button></a>
+  <hr/>
+</div>
+{%endblock %}
