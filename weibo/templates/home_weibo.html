@@ -4,8 +4,31 @@
 
 {%block content %}
 <div class="container">
-  <a href="/weibo/release/"><button type="button" class="btn btn-success">发微博</button></a>
-  <a href="/weibo/retrieve/"><button type="button" class="btn btn-success">获取最近微博</button></a>
+  <a href="/weibo/home/?action=release"><button type="button" class="btn btn-success">发微博</button></a>
+  <a href="/weibo/home/?action=retrieve"><button type="button" class="btn btn-success">获取最近微博</button></a>
   <hr/>
+
+  {% if action == "release" %}
+  <div class="container">
+	<textarea name="content" form="weibo_form" rows="3"></textarea>
+	<form action="" method="post" id="weibo_form">
+      {% csrf_token %}
+      <input type="submit" class="btn btn-success"  value="发布"/>
+	</form>
+	<hr/>
+	{% if status != "none" %}
+	<span class="alert alert-success">{{status}}</span>
+	{% endif %}
+  </div>
+  {% endif %}
+
+  {% if action == "retrieve" %}
+  <ul class="list-group">
+    {% for each in weibo_text_list %}
+	<li class="list-group-item">{{each}}</li>
+	{% endfor %}
+  </ul>
+  {% endif %}
+
 </div>
 {%endblock %}
