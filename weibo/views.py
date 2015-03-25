@@ -19,7 +19,7 @@ def login(request):
     client_id = '225784211'
     redirect_uri = 'http://ligh.xyz/weibo/success'
     redirect_uri_callback = 'http://127.0.0.1:8000/weibo/success'
-    paras = '?client_id=' + client_id + '&response_type=code&redirect_uri=' + redirect_uri_callback;
+    paras = '?client_id=' + client_id + '&response_type=code&redirect_uri=' + redirect_uri;
     return HttpResponseRedirect(url + paras)
 
 
@@ -35,7 +35,7 @@ def success(request):
         ('client_id', '225784211'),
         ('client_secret', '5bd2774944d0d0f4599c4b69bcd1b813'),
         ('grant_type', 'authorization_code'),
-        ('redirect_uri', redirect_uri_callback),
+        ('redirect_uri', redirect_uri),
         ('code', code),
         )
 
@@ -59,6 +59,7 @@ def success(request):
 
         user.save()
         request.session['uid'] = res['uid']
+        request.session.set_expiry(0)
         return HttpResponseRedirect('/weibo/home/')
 
 
@@ -99,8 +100,12 @@ def home(request):
             template_data['action'] = 'retrieve'
             response_json = retrieve_weibo(user.uid, user.access_token)
             template_data['weibo_text_list'] = []
+            text = ""
             for item in response_json['statuses']:
                 template_data['weibo_text_list'].append(item['text'])
+                text += item['text'] + ','
+            # keyword_list = get_keywords(text)
+            # template_data['keyword_list'] = keyword_list
             return render_to_response(
                 'home_weibo.html',template_data,
                 context_instance = RequestContext(request)
@@ -142,3 +147,10 @@ def retrieve_weibo(uid, access_token):
     http = httplib2.Http()
     response, content = http.request(url + '?' + paras)
     return json.loads(content)
+
+
+def get_keywords(content):
+    url = 'http://api.yutao.us/api/keyword/'
+    http = httplib2.Http()
+    response, content = http.request(url + content)
+    return content.split(',')
