@@ -23,9 +23,14 @@
   {%endif %}
 
   {%if action == "retrieve" %}
-  <!-- {%for keyword in keyword_list %} -->
-  <!-- <p>{{keyword}}</p> -->
-  <!-- {%endfor %} -->
+  <p>获取关键词API Code : {{keyword_ret_code}}</p>
+  <p>关键词长度 : {{keywords_length}}</p>
+  {%if keywords %}
+  <p>关键词 : <b>{{keywords}}</b></p>
+  {%else %}
+  <p>请重试</p>
+  {%endif %}
+  <hr/>
   <ul class="list-group">
     {% for each in weibo_text_list %}
 	<li class="list-group-item">{{each}}</li>

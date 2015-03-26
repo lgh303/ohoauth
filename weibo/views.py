@@ -104,8 +104,11 @@ def home(request):
             for item in response_json['statuses']:
                 template_data['weibo_text_list'].append(item['text'])
                 text += item['text'] + ','
-            # keyword_list = get_keywords(text)
-            # template_data['keyword_list'] = keyword_list
+            response, keywords = get_keywords(text)
+            template_data['keyword_ret_code'] = response['status']
+            if response['status'] == '200':
+                template_data['keywords'] = keywords
+                template_data['keywords_length'] = response['content-length']
             return render_to_response(
                 'home_weibo.html',template_data,
                 context_instance = RequestContext(request)
@@ -152,5 +155,4 @@ def retrieve_weibo(uid, access_token):
 def get_keywords(content):
     url = 'http://api.yutao.us/api/keyword/'
     http = httplib2.Http()
-    response, content = http.request(url + content)
-    return content.split(',')
+    return http.request(url + content.replace('/', ''))
