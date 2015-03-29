@@ -14,6 +14,41 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
+def users(request):
+    response = {}
+    response['users'] = []
+    for user in User.objects.all():
+        user_data = {}
+        user_data['uid'] = user.uid
+        user_data['name'] = user.name
+        response['users'].append(user_data)
+    return HttpResponse(json.dumps(response))
+
+
+def posts(request, user_id):
+    user = User.objects.filter(uid = user_id)
+    if not user:
+        error = {'error' : 'uid not found'}
+        return HttpResponse(json.dumps(error))
+    user = user.first()
+    response_json = retrieve_weibo(user.uid, user.access_token)
+    response = {}
+    response['uid'] = user.uid
+    if 'error' in response_json:
+        response['error'] = response_json['error']
+        return HttpResponse(json.dumps(response))
+    response['posts'] = []
+    text = ''
+    for item in response_json['statuses']:
+        response['posts'].append(item['text'])
+        text += item['text'] + ','
+    if 'keywords' in request.GET:
+        if request.GET['keywords'] == '1':
+            res, keys = get_keywords(text)
+            response['keywords'] = keys.strip(',').split(',')
+    return HttpResponse(json.dumps(response, ensure_ascii=False))
+
+
 def login(request):
     url = 'https://api.weibo.com/oauth2/authorize'
     client_id = '225784211'

@@ -9,4 +9,6 @@ urlpatterns = patterns(
     (r'^weibo/login/$', 'weibo.views.login'),
     (r'^weibo/success/$', 'weibo.views.success'),
     (r'^weibo/home/$', 'weibo.views.home'),
+    (r'^weibo/api/users/$', 'weibo.views.users'),
+    (r'^weibo/api/posts/([0-9]+)/$', 'weibo.views.posts'),
 )
