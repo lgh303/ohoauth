@@ -35,7 +35,7 @@ def posts(request, user_id):
     response = {}
     response['uid'] = user.uid
     if 'error' in response_json:
-        response['error'] = response_json['error']
+        response['error'] = 'This user has expired...'
         return HttpResponse(json.dumps(response))
     response['posts'] = []
     text = ''
